@@ -1,20 +1,195 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
+
+<div style="text-align:center" [style.display]="isDisplay? 'block': 'none'">
+  <h1 >
+     Welcome to Jira Web Sprint Card Generator !! {{title}}
   </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+   <div class="row custom-row" [style.display]="isDisplay? 'block': 'none'">
+    <div class= "col-sm-5 custom-container jumbotron" >
+         
+      <!-- <form class="form-horizontal" (ngSubmit)="onFormSubmit(loginForm.form)"  #loginForm = "ngForm" >
+          <fieldset>
+            <legend>Jira Credentials</legend>
+              <div class="form-group">
+                <label for="url" style="text-align:left">Jira Url </label>
+                <div>
+                <input type="text" class="form-control" 
+                name="url"
+                ngModel
+                #nameField="ngModel" required
+               
+                  style="text-align:left">
+                  
+                  <div class="alert alert-danger" 
+                  *ngIf="nameField.errors?.required && nameField.pristine">
+                  *required
+             </div>
+                </div>
+              </div>
+             
+              <div class="form-group">
+                <label for="username">UserName</label>
+                <div>
+                <input type="text"  class="form-control" 
+                ngModel
+                #nameField="ngModel" required
+                name="username">
+                  
+                  <div class="alert alert-danger" 
+                  *ngIf="nameField.errors?.required">
+                  *required
+             </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="inputPassword">Password</label>
+                <div>
+                <input type="password" class="form-control" 
+                ngModel
+                #nameField="ngModel" required
+                name="inputPassword"
+                  >
+                  <div class="alert alert-danger" 
+                  *ngIf="nameField.errors?.required">
+                  *required
+             </div>
+                </div>
+              </div> 
+              <div class="form-group">
+                <label for="jql">JQL</label>
+                <div>
+                <input type="jql" class="form-control" 
+                ngModel
+                #nameField="ngModel" required
+                name="jql"
+                  >
+                  <div class="alert alert-danger" 
+                  *ngIf="nameField.errors?.required">
+                  *required
+             </div>
+                </div>
+              </div> 
+              <div class="form-group">
+                  
+                  <button class="btn btn-primary" [disabled]="!loginForm.valid">Submit</button>
+              </div>
+          </fieldset>
+      </form> -->
+
+      <form [formGroup]="loginForm" (submit)="onSubmit()">
+          <div class="form-group">
+            <label for="url">Jira Url</label>
+            <div [ngClass]= "{'alert alert-danger':loginForm.controls.url.invalid && loginForm.controls.url.dirty, 'has-success': !loginForm.controls.url.errors}">
+              <input type ="text" name = "url" class="form-control" formControlName="url"/>
+              <ul class="help-block">
+              <li *ngIf="(loginForm.controls.url.errors?.required && loginForm.controls.url.dirty)">
+                Required
+                </li>
+                <li *ngIf="(loginForm.controls.url.errors?.pattern && loginForm.controls.url.dirty)">
+                    Url must start with http:// or https://
+                    </li>
+            </ul>
+            </div>
+          </div>
+          <div class="form-group">
+              <label for="username">Jira Username</label>
+              <div [ngClass]= "{'alert alert-danger':(loginForm.controls.username.errors && loginForm.controls.username.dirty), 'has-success': !loginForm.controls.username.errors}">
+                <input type ="text" name = "username" class="form-control" formControlName="username"/>
+                <ul class="help-block">
+                <li *ngIf="(loginForm.controls.username.errors?.required && loginForm.controls.username.dirty)">
+                  Required
+                  </li>
+              </ul>
+              </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div [ngClass]= "{'alert alert-danger':(loginForm.controls.password.errors && loginForm.controls.password.dirty), 'has-success': !loginForm.controls.password.errors}">
+                  <input type ="password" name = "password" class="form-control" formControlName="password"/>
+                  <ul class="help-block">
+                  <li *ngIf="(loginForm.controls.password.errors?.required && loginForm.controls.password.dirty)">
+                    Required
+                    </li>
+                </ul>
+                </div>
+              </div>
+              <div class="form-group">
+                  <label for="jql">Jira Query (JQL)</label>
+                  <div [ngClass]= "{'alert alert-danger':(loginForm.controls.jql.errors && loginForm.controls.jql.dirty), 'has-success': !loginForm.controls.jql.errors}">
+                    <input type ="text" name = "jql" class="form-control" formControlName="jql"/>
+                    <ul class="help-block">
+                    <li *ngIf="(loginForm.controls.jql.errors?.required && loginForm.controls.jql.dirty)">
+                      Required
+                      </li>
+                  </ul>
+                  </div>
+                </div>
+            <input [disabled] = "!loginForm.valid" type ="submit" value = "submit" class="btn btn-primary" />
+        </form>
+
+    </div>
+</div>
+    
+    <div class="row custom-row" style="padding-left: 10px" >
+     <div  *ngFor="let issue of story?.issues; let i = index" style="
+     width: 500px;
+     height: 300px;
+     padding-top: 0px;
+     padding-right: 10px;
+     padding-bottom: 0px;
+     padding-left:10px; ">
+       <div style="display: block;
+       float: left; 
+       height: 300px;
+       width: 500px;
+       border: 1px solid black;
+       padding-left: 1em;
+       padding-right: 10px;
+       position: relative;
+       word-wrap: break-word; 
+       page-break-inside: avoid;margin-right: 10px;" [style.background-color]="issue.fields.issuetype.name == 'Defect' ? '#DA2433': issue.fields.issuetype.name == 'Sub-Task' ? '#17C65D': '#20ECF0' " >
+       <img style = "background-color: white;
+       margin-right: 7px;
+       position: relative;
+       top: 0;
+       left: 0;" [src]="issue.fields.issuetype.name == 'Defect' ? 'assets\\img\\Defect.png': issue.fields.issuetype.name == 'Sub-Task' ? 'assets\\img\\SubTask.png':'assets\\img\\UserStory.png'">
+       <h1 style="color: black;  
+       font-family: 'Russo One', sans-serif;
+       font-size: 21pt;
+       font-weight: bold;
+       margin-bottom: 0;
+       margin-top: 10px;
+       margin-right: 10px;
+       float:right;">{{ issue.key }}</h1>
+       <h2 style ="color: black;
+       height: 180px;
+       width: 500px;			  
+             font-family: 'Nunito', sans-serif;
+             font-size: 24pt;
+             margin-top: 0px;
+             margin-right:1px;
+             overflow: hidden;
+             white-space: pre-wrap;
+             word-wrap: break-word;
+             overflow-wrap: break-word;
+             text-overflow: ellipsis;
+             float:left;">{{ issue.fields.summary }}</h2>
+        <h3 style=" color: black;  border: 1.2px solid black;
+        font-family: 'Russo One', sans-serif;
+        font-size: 20pt;
+        line-height: 1;
+        bottom: 0;
+        left:0;
+        position: absolute;
+        margin-bottom: 0px;
+        float:left;">{{ issue.fields.customfield_10232 }}</h3>
+       </div>
+      </div>      
+           
+   
+  </div>
+
+  
+
 
