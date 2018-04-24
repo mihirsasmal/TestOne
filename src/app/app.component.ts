@@ -14,7 +14,7 @@ import { ServiceHandler } from './servicehandler';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 
 export class AppComponent implements OnInit {
@@ -25,13 +25,24 @@ export class AppComponent implements OnInit {
   public story;
   public isDisplay = true;
   public isError = false;
+  public isPrint=false;
   public error: string;
-  public source = ["key","fields.summary"];
+  public storyFields = ["key","fields.summary","fields.customfield_10232"];
   public userstoryColorValue;subtaskColorValue;defectColorValue;
- public confirmed = [];
-  public test =[{fields:{key:2}},{fields:{key:3}},{fields:{key:4}}]
-  public attr(issue){
-    return issue["fields"]["key"];
+
+  public resolveFieldValue(issue, sourceArray, position){
+    var data = sourceArray[position] as string;
+   return this.resolveFieldValueFromString(issue,data);    
+  }
+
+  public resolveFieldValueFromString(issue,sourceString)
+  {
+    var dataarray = sourceString.split('.');
+    var returnValue = issue;
+    var i;
+    for (i=0;i < dataarray.length; i++ )
+    { returnValue= returnValue[dataarray[i]]}
+    return returnValue;
   }
   constructor(private _serviceHandler: ServiceHandler, private formBuilder: FormBuilder) {
     this.createForm();
@@ -53,16 +64,14 @@ export class AppComponent implements OnInit {
     );
   }
 onAdd(){
-  this.source.push(this.listForm.controls.addfield.value);
+  this.storyFields.push(this.listForm.controls.addfield.value);
   this.listForm.reset();
 }
 onGenerate(){
   this.userstoryColorValue = this.cardForm.controls.userstoryColor.value;
   this.subtaskColorValue = this.cardForm.controls.subtaskColor.value;
   this.defectColorValue = this.cardForm.controls.defectColor.value;
- console.log(this.userstoryColorValue);
- console.log(this.subtaskColorValue);
- console.log(this.defectColorValue);
+ this.isPrint=true;
 }
   ngOnInit() {
   }
@@ -79,9 +88,6 @@ onGenerate(){
       ])],
       jql: ['', Validators.compose([
         Validators.required
-      ])],
-      fieldname: ['', Validators.compose([
-        Validators.required
       ])]
     })
   }
@@ -94,9 +100,9 @@ onGenerate(){
 
   createCardForm() {
     this.cardForm = this.formBuilder.group({
-      userstoryColor: ['',{}],
-      subtaskColor: ['',{}],
-      defectColor: ['',{}]
+      userstoryColor: ['#20ECF0',{}],
+      subtaskColor: ['#17C65D',{}],
+      defectColor: ['#DA2433',{}]
     })
   }
   private errorMessage(err: any) {
