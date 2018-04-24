@@ -21,8 +21,10 @@
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
+    "angular-dual-listbox": "^4.7.0",
     "core-js": "^2.4.1",
     "rxjs": "^5.5.6",
+    "ui-select": "^0.19.8",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {

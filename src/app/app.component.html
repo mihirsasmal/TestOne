@@ -57,9 +57,38 @@
           </ul>
         </div>
       </div>
+      <section style="text-align:center"><h3> Sprint Card Details</h3></section>
+      <div class="form-group">
+          <label for="fieldname">Jira Issue Fieldname</label>
+          <div [ngClass]="{'alert alert-danger':(loginForm.controls.fieldname.errors && loginForm.controls.fieldname.dirty), 'has-success': !loginForm.controls.fieldname.errors}">
+            <input type="color" name="fieldname" class="form-control" formControlName="fieldname" />
+            <ul class="help-block">
+              <li *ngIf="(loginForm.controls.fieldname.errors?.required && loginForm.controls.fieldname.dirty)">
+                Required
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+              <!-- <div class="form-group">
+        <dual-list  class ="form-control" [source]="source" [(destination)]="confirmed"></dual-list> </div> -->
       <input [disabled]="!loginForm.valid" type="submit" value="submit" class="btn btn-primary" />
     </form>
-
+    <form [formGroup]="listForm" (submit)="onAdd()"> 
+        <div class="form-group">
+            <label for="addfield">Add Story Field to Display in Card</label>
+            <!-- <div [ngClass]="{'alert alert-danger':loginForm.controls.addfield.invalid && loginForm.controls.addfield.dirty, 'has-success': !loginForm.controls.addfield.errors}"> -->
+              <input type="text" name="addfield" class="form-control" formControlName="addfield" />
+              <!-- <ul class="help-block">
+                <li *ngIf="(loginForm.controls.addfield.errors?.pattern && loginForm.controls.addfield.dirty)">
+                  Field should contain name and keyname in json. e.g:- (Story ID : key)
+                </li>
+              </ul> -->
+            <!-- </div> -->
+        </div>
+            <input [disabled]="!listForm.valid" type="submit" value="Add" class="btn btn-primary" />
+          </form>
+          <ul><li *ngFor="let field of source">{{field}}</li></ul>
   </div>
 
 </div>
@@ -73,6 +102,4 @@
       <h3 class = "sprintCardH3">{{ issue.fields.customfield_10232 }}</h3>
     </div>
   </div>
-
-
 </div>

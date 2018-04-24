@@ -20,12 +20,20 @@ import { ServiceHandler } from './servicehandler';
 export class AppComponent implements OnInit {
 
   loginForm: FormGroup
+  listForm:FormGroup
   public story;
   public isDisplay = true;
   public isError = false;
   public error: string;
+  public source = ["key","fields.summary"];
+ public confirmed = [];
+  public test =[{fields:{key:2}},{fields:{key:3}},{fields:{key:4}}]
+  public attr(issue){
+    return issue["fields"]["key"];
+  }
   constructor(private _serviceHandler: ServiceHandler, private formBuilder: FormBuilder) {
     this.createForm();
+    this.createListForm();
   }
 
   onSubmit() {
@@ -41,7 +49,10 @@ export class AppComponent implements OnInit {
       }
     );
   }
-
+onAdd(){
+  this.source.push(this.listForm.controls.addfield.value);
+  this.listForm.reset();
+}
   ngOnInit() {
   }
   createForm() {
@@ -57,7 +68,16 @@ export class AppComponent implements OnInit {
       ])],
       jql: ['', Validators.compose([
         Validators.required
+      ])],
+      fieldname: ['', Validators.compose([
+        Validators.required
       ])]
+    })
+  }
+
+  createListForm() {
+    this.listForm = this.formBuilder.group({
+      addfield: ['',{}]
     })
   }
   private errorMessage(err: any) {
