@@ -13,7 +13,7 @@ export class ServiceHandler {
 
     searchJql(url: string, jql: string) {
         this.httpOptions = {
-            headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Basic ' + btoa(this.username + ':' + this.password), 'X-Atlassian-Token': 'no-check' })
+            headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Basic ' + btoa(this.username + ':' + this.password), 'X-Atlassian-Token': 'no-check' ,'Access-Control-Allow-Origin' :'*' })
         };
 
         let jqlendpoint = url + jiraRestEndPoint + "search?jql=" + jql;
