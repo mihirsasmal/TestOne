@@ -56,39 +56,40 @@
             </li>
           </ul>
         </div>
-      </div>
-      <section style="text-align:center"><h3> Sprint Card Details</h3></section>
-      <div class="form-group">
-          <label for="fieldname">Jira Issue Fieldname</label>
-          <div [ngClass]="{'alert alert-danger':(loginForm.controls.fieldname.errors && loginForm.controls.fieldname.dirty), 'has-success': !loginForm.controls.fieldname.errors}">
-            <input type="color" name="fieldname" class="form-control" formControlName="fieldname" />
-            <ul class="help-block">
-              <li *ngIf="(loginForm.controls.fieldname.errors?.required && loginForm.controls.fieldname.dirty)">
-                Required
-              </li>
-            </ul>
-          </div>
-        </div>
-        
-              <!-- <div class="form-group">
-        <dual-list  class ="form-control" [source]="source" [(destination)]="confirmed"></dual-list> </div> -->
+      </div> 
+      
       <input [disabled]="!loginForm.valid" type="submit" value="submit" class="btn btn-primary" />
     </form>
-    <form [formGroup]="listForm" (submit)="onAdd()"> 
+    <section style="text-align:center"><h3> Sprint Card Details</h3></section>
+     <form [formGroup]="listForm" (submit)="onAdd()"> 
         <div class="form-group">
             <label for="addfield">Add Story Field to Display in Card</label>
-            <!-- <div [ngClass]="{'alert alert-danger':loginForm.controls.addfield.invalid && loginForm.controls.addfield.dirty, 'has-success': !loginForm.controls.addfield.errors}"> -->
-              <input type="text" name="addfield" class="form-control" formControlName="addfield" />
-              <!-- <ul class="help-block">
-                <li *ngIf="(loginForm.controls.addfield.errors?.pattern && loginForm.controls.addfield.dirty)">
-                  Field should contain name and keyname in json. e.g:- (Story ID : key)
-                </li>
-              </ul> -->
-            <!-- </div> -->
+            <input type="text" name="addfield" class="form-control" formControlName="addfield" />
         </div>
             <input [disabled]="!listForm.valid" type="submit" value="Add" class="btn btn-primary" />
-          </form>
+    </form>
           <ul><li *ngFor="let field of source">{{field}}</li></ul>
+          <!-- <dual-list  [source]="source" [(destination)]="confirmed"></dual-list> -->
+          <form [formGroup]="cardForm" (submit)="onGenerate()" (button)= "onPreview()"> 
+          <h5 style= "text-align:left"> Card Colors : </h5>
+          <div class="form-group"> 
+              <label for="userstoryColor">User Story</label>
+              <img src = "assets\\img\\UserStory.png" width = "3%">
+                <input type="color" name="userstoryColor" class="form-control" formControlName="userstoryColor" />
+          </div>
+          <div class="form-group"> 
+              <label for="subtaskColor">SubTask</label>
+              <img src = "assets\\img\\SubTask.png"  width = "3%">
+                <input type="color" name="subtaskColor" class="form-control" formControlName="subtaskColor"/>
+          </div>
+          <div class="form-group"> 
+              <label for="defectColor">Defect</label> 
+              <img src = "assets\\img\\Defect.png"  width = "3%">
+                <input type="color" name="defectColor" class="form-control" formControlName="defectColor" />
+          </div>
+            <input [disabled]="!cardForm.valid" type="button" value="Preview" class="btn btn-primary" />
+            <input [disabled]="!cardForm.valid" type="submit" value="Generate" class="btn btn-primary" />
+          </form>
   </div>
 
 </div>

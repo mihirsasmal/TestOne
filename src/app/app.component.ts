@@ -21,11 +21,13 @@ export class AppComponent implements OnInit {
 
   loginForm: FormGroup
   listForm:FormGroup
+  cardForm:FormGroup
   public story;
   public isDisplay = true;
   public isError = false;
   public error: string;
   public source = ["key","fields.summary"];
+  public userstoryColorValue;subtaskColorValue;defectColorValue;
  public confirmed = [];
   public test =[{fields:{key:2}},{fields:{key:3}},{fields:{key:4}}]
   public attr(issue){
@@ -34,6 +36,7 @@ export class AppComponent implements OnInit {
   constructor(private _serviceHandler: ServiceHandler, private formBuilder: FormBuilder) {
     this.createForm();
     this.createListForm();
+    this.createCardForm();
   }
 
   onSubmit() {
@@ -52,6 +55,14 @@ export class AppComponent implements OnInit {
 onAdd(){
   this.source.push(this.listForm.controls.addfield.value);
   this.listForm.reset();
+}
+onGenerate(){
+  this.userstoryColorValue = this.cardForm.controls.userstoryColor.value;
+  this.subtaskColorValue = this.cardForm.controls.subtaskColor.value;
+  this.defectColorValue = this.cardForm.controls.defectColor.value;
+ console.log(this.userstoryColorValue);
+ console.log(this.subtaskColorValue);
+ console.log(this.defectColorValue);
 }
   ngOnInit() {
   }
@@ -78,6 +89,14 @@ onAdd(){
   createListForm() {
     this.listForm = this.formBuilder.group({
       addfield: ['',{}]
+    })
+  }
+
+  createCardForm() {
+    this.cardForm = this.formBuilder.group({
+      userstoryColor: ['',{}],
+      subtaskColor: ['',{}],
+      defectColor: ['',{}]
     })
   }
   private errorMessage(err: any) {
