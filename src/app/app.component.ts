@@ -1,7 +1,7 @@
 
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Injectable } from '@angular/core';
+import { Injectable, ViewEncapsulation } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
@@ -14,7 +14,8 @@ import { ServiceHandler } from './servicehandler';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class AppComponent implements OnInit {
@@ -50,6 +51,10 @@ export class AppComponent implements OnInit {
     this.createCardForm();
   }
 
+  onPrint()
+  {
+    window.print();
+  }
   onSubmit() {
     this.isDisplay = false;
     this.isError = false;
