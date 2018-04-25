@@ -1,6 +1,6 @@
 <div style="text-align:center" [style.display]="isDisplay? 'block': 'none'">
   <h1>
-    Jira Web Sprint Card Generator !!
+    Jira Sprint Card Generator !!
   </h1>
 </div>
 <div style="text-align:center" [style.display]="isError? 'block': 'none'" class="alert alert-danger">
@@ -103,13 +103,13 @@
         <input type="color" name="defectColor" class="form-control col-md-3" formControlName="defectColor" style="height : 2.25rem;"
         />
       </div>
-      <input [disabled]="!cardForm.valid" type="button" value="Preview" class="btn btn-info" />
+      <!-- <input [disabled]="!cardForm.valid" type="button" value="Preview" class="btn btn-info" />  This will be enabled after providing user to resize the card. can be done by adding text box to enter and show the card in preview-->
       <input [disabled]="!cardForm.valid" type="submit" value="Generate" class="btn btn-primary" />
     </form>
   </div>
 </div>
 <div  class ="doNotPrint" [style.display]="isPrint? 'block': 'none'">
-  <button class="btn btn-primary" (click) ="onPrint()" style="padding-left : 20px; padding-right: 20px; margin-left:20px; margin-bottom:5px;">Print</button>
+  <button class="btn btn-info" (click) ="onPrint()" style="padding-left : 20px; padding-right: 20px; margin-left:20px; margin-bottom:5px;">Print</button>
 </div>
 <div style="padding-left: 10px; float:left" [style.display]="isPrint? 'block': 'none'">
   <div *ngFor="let issue of story?.issues;" class="sprintCard">
