@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {ServiceHandler} from './servicehandler';
+import { AngularDualListBoxModule } from 'angular-dual-listbox';
 
 
 import { AppComponent } from './app.component';
@@ -16,7 +17,8 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,HttpClientModule,
     FormsModule,ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    AngularDualListBoxModule
   ],
   providers: [ServiceHandler],
   bootstrap: [AppComponent]

@@ -1,7 +1,7 @@
 
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Injectable } from '@angular/core';
+import { Injectable, ViewEncapsulation } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
@@ -14,20 +14,47 @@ import { ServiceHandler } from './servicehandler';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class AppComponent implements OnInit {
 
   loginForm: FormGroup
+  listForm:FormGroup
+  cardForm:FormGroup
   public story;
   public isDisplay = true;
   public isError = false;
+  public isPrint=false;
   public error: string;
-  constructor(private _serviceHandler: ServiceHandler, private formBuilder: FormBuilder) {
-    this.createForm();
+  public storyFields = ["key","fields.summary","fields.customfield_10232"];
+  public userstoryColorValue;subtaskColorValue;defectColorValue;
+
+  public resolveFieldValue(issue, sourceArray, position){
+    var data = sourceArray[position] as string;
+   return this.resolveFieldValueFromString(issue,data);    
   }
 
+  public resolveFieldValueFromString(issue,sourceString)
+  {
+    var dataarray = sourceString.split('.');
+    var returnValue = issue;
+    var i;
+    for (i=0;i < dataarray.length; i++ )
+    { returnValue= returnValue[dataarray[i]]}
+    return returnValue;
+  }
+  constructor(private _serviceHandler: ServiceHandler, private formBuilder: FormBuilder) {
+    this.createForm();
+    this.createListForm();
+    this.createCardForm();
+  }
+
+  onPrint()
+  {
+    window.print();
+  }
   onSubmit() {
     this.isDisplay = false;
     this.isError = false;
@@ -41,7 +68,16 @@ export class AppComponent implements OnInit {
       }
     );
   }
-
+onAdd(){
+  this.storyFields.push(this.listForm.controls.addfield.value);
+  this.listForm.reset();
+}
+onGenerate(){
+  this.userstoryColorValue = this.cardForm.controls.userstoryColor.value;
+  this.subtaskColorValue = this.cardForm.controls.subtaskColor.value;
+  this.defectColorValue = this.cardForm.controls.defectColor.value;
+ this.isPrint=true;
+}
   ngOnInit() {
   }
   createForm() {
@@ -58,6 +94,20 @@ export class AppComponent implements OnInit {
       jql: ['', Validators.compose([
         Validators.required
       ])]
+    })
+  }
+
+  createListForm() {
+    this.listForm = this.formBuilder.group({
+      addfield: ['',{}]
+    })
+  }
+
+  createCardForm() {
+    this.cardForm = this.formBuilder.group({
+      userstoryColor: ['#20ECF0',{}],
+      subtaskColor: ['#17C65D',{}],
+      defectColor: ['#DA2433',{}]
     })
   }
   private errorMessage(err: any) {
