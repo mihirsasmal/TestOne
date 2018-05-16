@@ -62,11 +62,12 @@ export class AppComponent implements OnInit {
     this._serviceHandler.password = this.loginForm.controls.password.value;
 
     this._serviceHandler.searchJql(this.loginForm.controls.url.value, this.loginForm.controls.jql.value).subscribe(
-      data => { this.story = data },
+      data => { this.story = data ; },
       err => {
         this.errorMessage(err);
       }
     );
+    
   }
 onAdd(){
   this.storyFields.push(this.listForm.controls.addfield.value);
